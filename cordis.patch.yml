@@ -1,0 +1,29 @@
+# DSH loader overlay for the approval guide.
+#
+# Apply it as a launcher layer:
+#   dsh web --patch D:/vibecoding/dshplugins/dsh-approval-guide/cordis.patch.yml
+#
+# ...or append this one row to your profile's own patch layer
+# (`$DSH_HOME/profiles/<profile>/cordis.patch.yml`, the Desktop client uses
+# `desktop`), which reloads live. `node scripts/install.mjs` writes it for you.
+#
+# The row names the Host half by absolute file URL, so the plugin needs no
+# install step: the loader's own resolver locates `src/index.ts`, and the
+# nearest `package.json` is what lets the client-module scanner see the
+# `dsh.client` declaration and serve `src/client.js` as the browser bundle.
+
+- insert:
+    - id: approval-guide
+      name: 'file:///D:/vibecoding/dshplugins/dsh-approval-guide/src/index.ts'
+      config:
+        widgets:
+          # Explanatory line above the composer while an approval is pending.
+          explainer: true
+        # Lowest level shown: high | medium | low. `unknown` is always shown.
+        minLevel: medium
+        # Show a line for low-risk (read-only) approvals too.
+        showLow: false
+        # Maximum characters of the sanitized argument preview.
+        previewChars: 400
+        # Extra high-risk regular expressions, matched against the command/path.
+        extraHighRisk: []
